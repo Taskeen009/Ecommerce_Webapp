@@ -6,9 +6,7 @@ const cors=require('cors')
 //create a database connection 
 //create a sperate file for this and then import/use that file here
 
-mongoose.connect('mongodb+srv://taskeenfa:6xPtw8oK8SirhgRC@cluster0.4r73b.mongodb.net/')
-.then(()=>console.log('mongodb connected'))
-.catch((error)=>console.log(error))
+
 const app=express()
 
 app.get('/',(req,res)=>{
@@ -17,5 +15,19 @@ app.get('/',(req,res)=>{
 
 
 const PORT= process.env.PORT||3000
-app.use(cors({}))
-app.listen(PORT)
+app.use(cors({
+   origin:' http://localhost:5173/',
+   methods:['GET','POST','DELETE','PUT'],
+   allowedHeaders:[
+      "Content-Type",
+      "Authorization",
+      "Cache-Control",
+      "Expires",
+      "Pragma"
+   ],
+   credentials:true
+}));
+
+app.use(cookiesParser());
+app.use(express.json())
+app.listen(PORT,()=>console.log(`server is running ${PORT}`))
